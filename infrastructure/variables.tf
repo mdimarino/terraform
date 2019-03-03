@@ -1,0 +1,51 @@
+# variable "server_port" {
+#   description = "The port the server will use for HTTP requests"
+#   default     = 8080
+# }
+#
+# variable "list_example" {
+#   description = "An example of a list in Terraform"
+#   type        = "list"
+#   default     = [1, 2, 3]
+# }
+#
+# variable "map_example" {
+#   description = "An example of a map in Terraform"
+#   type        = "map"
+#
+#   default = {
+#     key1 = "value1"
+#     key2 = "value2"
+#     key3 = "value3"
+#   }
+# }
+
+variable "region" {
+  description = "A região que será usada"
+  type        = "string"
+}
+
+variable "profile" {
+  description = "O profile que será usado"
+  type        = "string"
+}
+
+variable "vpc-name" {
+  description = "O nome da vpc que será usado"
+  type        = "string"
+}
+
+variable "vpc-cidr-block" {
+  description = "O CIDR da vpc"
+  type        = "string"
+}
+
+variable "billing" {
+  description = "A área de cobrança do custo"
+  type        = "string"
+}
+
+variable "environment" {
+  description = "O ambiente que será usado"
+  type        = "string"
+}
