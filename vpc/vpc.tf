@@ -16,7 +16,7 @@ module "vpc" {
   name = local.name
   cidr = "10.58.160.0/19"
 
-  azs = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-east-1e"]
+  azs = ["us-east-1a", "us-east-1b", "us-east-1c", "us-east-1d", "us-east-1f"]
 
   private_subnets     = ["10.58.160.0/22", "10.58.164.0/22", "10.58.168.0/22", "10.58.172.0/22", "10.58.176.0/22"]
   public_subnets      = ["10.58.180.0/24", "10.58.181.0/24", "10.58.182.0/24", "10.58.183.0/24", "10.58.184.0/24"]
@@ -29,6 +29,14 @@ module "vpc" {
   enable_nat_gateway     = true
   single_nat_gateway     = true
   one_nat_gateway_per_az = false
+
+  public_subnet_tags = {
+    "kubernetes.io/role/elb" = 1
+  }
+
+  private_subnet_tags = {
+    "kubernetes.io/role/internal-elb" = 1
+  }
 
   reuse_nat_ips = true
   external_nat_ip_ids = [

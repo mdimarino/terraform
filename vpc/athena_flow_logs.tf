@@ -1,6 +1,8 @@
 resource "aws_athena_workgroup" "vpc" {
   name = "flow_logs"
 
+  force_destroy = true
+
   configuration {
     enforce_workgroup_configuration    = true
     publish_cloudwatch_metrics_enabled = true
