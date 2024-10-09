@@ -1,0 +1,230 @@
+accessConfig:
+  eksctl utils schema: API_AND_CONFIG_MAP
+addons:
+- name: vpc-cni
+  version: latest
+  wellKnownPolicies:
+    autoScaler: false
+    awsLoadBalancerController: false
+    certManager: false
+    ebsCSIController: false
+    efsCSIController: false
+    externalDNS: false
+    imageBuilder: false
+- name: kube-proxy
+  version: latest
+  wellKnownPolicies:
+    autoScaler: false
+    awsLoadBalancerController: false
+    certManager: false
+    ebsCSIController: false
+    efsCSIController: false
+    externalDNS: false
+    imageBuilder: false
+- name: coredns
+  version: latest
+  wellKnownPolicies:
+    autoScaler: false
+    awsLoadBalancerController: false
+    certManager: false
+    ebsCSIController: false
+    efsCSIController: false
+    externalDNS: false
+    imageBuilder: false
+addonsConfig: {}
+apiVersion: eksctl.io/v1alpha5
+cloudWatch:
+  clusterLogging:
+    enableTypes:
+    - api
+    - audit
+    - authenticator
+    - controllerManager
+    - scheduler
+    logRetentionInDays: 60
+iam:
+  vpcResourceControllerPolicy: true
+  withOIDC: true
+kind: ClusterConfig
+kubernetesNetworkConfig:
+  ipFamily: IPv4
+  serviceIPv4CIDR: 192.168.0.0/16
+managedNodeGroups:
+- amiFamily: Bottlerocket
+  bottlerocket:
+    settings: {}
+  desiredCapacity: 2
+  disableIMDSv1: true
+  disablePodIMDS: false
+  iam:
+    withAddonPolicies:
+      albIngress: false
+      appMesh: null
+      appMeshPreview: null
+      autoScaler: false
+      awsLoadBalancerController: false
+      certManager: false
+      cloudWatch: false
+      ebs: false
+      efs: false
+      externalDNS: false
+      fsx: false
+      imageBuilder: false
+      xRay: false
+  instanceSelector: {}
+  instanceType: t3a.micro
+  labels:
+    alpha.eksctl.io/cluster-name: test
+    alpha.eksctl.io/nodegroup-name: ng-micro
+    role: micro
+  maxSize: 3
+  minSize: 1
+  name: ng-micro
+  privateNetworking: true
+  releaseVersion: ""
+  securityGroups:
+    withLocal: null
+    withShared: null
+  spot: true
+  ssh:
+    allow: false
+  tags:
+    alpha.eksctl.io/nodegroup-name: ng-micro
+    alpha.eksctl.io/nodegroup-type: managed
+  volumeIOPS: 3000
+  volumeName: /dev/xvdb
+  volumeSize: 20
+  volumeThroughput: 125
+  volumeType: gp3
+- amiFamily: Bottlerocket
+  bottlerocket:
+    settings: {}
+  desiredCapacity: 2
+  disableIMDSv1: true
+  disablePodIMDS: false
+  iam:
+    withAddonPolicies:
+      albIngress: false
+      appMesh: null
+      appMeshPreview: null
+      autoScaler: false
+      awsLoadBalancerController: false
+      certManager: false
+      cloudWatch: false
+      ebs: false
+      efs: false
+      externalDNS: false
+      fsx: false
+      imageBuilder: false
+      xRay: false
+  instanceSelector: {}
+  instanceType: t3a.small
+  labels:
+    alpha.eksctl.io/cluster-name: test
+    alpha.eksctl.io/nodegroup-name: ng-small
+    role: small
+  maxSize: 3
+  minSize: 1
+  name: ng-small
+  privateNetworking: true
+  releaseVersion: ""
+  securityGroups:
+    withLocal: null
+    withShared: null
+  spot: true
+  ssh:
+    allow: false
+  tags:
+    alpha.eksctl.io/nodegroup-name: ng-small
+    alpha.eksctl.io/nodegroup-type: managed
+  volumeIOPS: 3000
+  volumeName: /dev/xvdb
+  volumeSize: 20
+  volumeThroughput: 125
+  volumeType: gp3
+- amiFamily: Bottlerocket
+  bottlerocket:
+    settings: {}
+  desiredCapacity: 2
+  disableIMDSv1: true
+  disablePodIMDS: false
+  iam:
+    withAddonPolicies:
+      albIngress: false
+      appMesh: null
+      appMeshPreview: null
+      autoScaler: false
+      awsLoadBalancerController: false
+      certManager: false
+      cloudWatch: false
+      ebs: false
+      efs: false
+      externalDNS: false
+      fsx: false
+      imageBuilder: false
+      xRay: false
+  instanceSelector: {}
+  instanceType: t3a.medium
+  labels:
+    alpha.eksctl.io/cluster-name: test
+    alpha.eksctl.io/nodegroup-name: ng-medium
+    role: medium
+  maxSize: 3
+  minSize: 1
+  name: ng-medium
+  privateNetworking: true
+  releaseVersion: ""
+  securityGroups:
+    withLocal: null
+    withShared: null
+  spot: true
+  ssh:
+    allow: false
+  tags:
+    alpha.eksctl.io/nodegroup-name: ng-medium
+    alpha.eksctl.io/nodegroup-type: managed
+  volumeIOPS: 3000
+  volumeName: /dev/xvdb
+  volumeSize: 20
+  volumeThroughput: 125
+  volumeType: gp3
+metadata:
+  name: test
+  region: us-east-1
+  tags:
+    Billing: infrastructure
+  version: "1.31"
+privateCluster:
+  enabled: false
+  skipEndpointCreation: false
+vpc:
+  cidr: 10.58.160.0/19
+  clusterEndpoints:
+    privateAccess: false
+    publicAccess: true
+  id: vpc-0a841e88c5703bfb0
+  manageSharedNodeSecurityGroupRules: true
+  nat:
+    gateway: Disable
+  subnets:
+    private:
+      us-east-1a:
+        az: us-east-1a
+        cidr: 10.58.160.0/22
+        id: subnet-0d28d76912ebd8e36
+      us-east-1b:
+        az: us-east-1b
+        cidr: 10.58.164.0/22
+        id: subnet-03835f3d08f5d230c
+      us-east-1c:
+        az: us-east-1c
+        cidr: 10.58.168.0/22
+        id: subnet-05859a47b5dd63093
+      us-east-1d:
+        az: us-east-1d
+        cidr: 10.58.172.0/22
+        id: subnet-0987846f6aa47d16a
+      us-east-1f:
+        az: us-east-1f
+        cidr: 10.58.176.0/22
+        id: subnet-0b9d13317497d3519

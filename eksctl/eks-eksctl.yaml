@@ -1,0 +1,128 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: test
+  region: us-east-1
+  version: "1.31"
+  tags:
+    Billing: infrastructure
+
+kubernetesNetworkConfig:
+  ipFamily: IPv4
+  serviceIPv4CIDR: 192.168.0.0/16
+
+vpc:
+  cidr: 10.58.160.0/19
+  clusterEndpoints:
+    privateAccess: false
+    publicAccess: true
+  id: vpc-0a841e88c5703bfb0
+  manageSharedNodeSecurityGroupRules: true
+  nat:
+    gateway: Disable
+  subnets:
+    private:
+      us-east-1a:
+        # az: us-east-1a
+        # cidr: 10.58.160.0/22
+        id: subnet-0d28d76912ebd8e36
+      us-east-1b:
+        # az: us-east-1b
+        # cidr: 10.58.164.0/22
+        id: subnet-03835f3d08f5d230c
+      us-east-1c:
+        # az: us-east-1c
+        # cidr: 10.58.168.0/22
+        id: subnet-05859a47b5dd63093
+      us-east-1d:
+        # az: us-east-1d
+        # cidr: 10.58.172.0/22
+        id: subnet-0987846f6aa47d16a
+      us-east-1f:
+        # az: us-east-1f
+        # cidr: 10.58.176.0/22
+        id: subnet-0b9d13317497d3519
+    # public:
+    #   us-east-1a:
+    #     az: us-east-1a
+    #     cidr: 10.58.180.0/24
+    #     id: 
+    #   us-east-1b:
+    #     az: us-east-1b
+    #     cidr: 10.58.181.0/24
+    #     id: 
+    #   us-east-1c:
+    #     az: us-east-1c
+    #     cidr: 10.58.182.0/24
+    #     id: 
+    #   us-east-1d:
+    #     az: us-east-1d
+    #     cidr: 10.58.183.0/24
+    #     id: 
+    #   us-east-1f:
+    #     az: us-east-1f
+    #     cidr: 10.58.184.0/24
+    #     id: 
+  # publicAccessCIDRs:
+  #   - 177.43.4.164/32
+
+addons:
+- name: vpc-cni
+  version: latest
+- name: kube-proxy
+  version: latest
+- name: coredns
+  version: latest
+
+managedNodeGroups:
+- name: ng-micro
+  labels: { role: micro }
+  instanceType: t3a.micro
+  desiredCapacity: 2
+  minSize: 1
+  maxSize: 3
+  privateNetworking: true
+  spot: true
+  volumeSize: 20
+  amiFamily: Bottlerocket
+- name: ng-small
+  labels: { role: small }
+  instanceType: t3a.small
+  desiredCapacity: 2
+  minSize: 1
+  maxSize: 3
+  privateNetworking: true
+  spot: true
+  volumeSize: 20
+  amiFamily: Bottlerocket
+- name: ng-medium
+  labels: { role: medium }
+  instanceType: t3a.medium
+  desiredCapacity: 2
+  minSize: 1
+  maxSize: 3
+  privateNetworking: true
+  spot: true
+  volumeSize: 20
+  amiFamily: Bottlerocket
+
+iam:
+  withOIDC: true
+
+cloudWatch:
+  clusterLogging:
+    # enable specific types of cluster control plane logs
+    enableTypes: ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+    # all supported types: "api", "audit", "authenticator", "controllerManager", "scheduler"
+    # supported special values: "*" and "all"
+
+    # Sets the number of days to retain the logs for (see [CloudWatch docs](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutRetentionPolicy.html#API_PutRetentionPolicy_RequestSyntax)).
+    # By default, log data is stored in CloudWatch Logs indefinitely.
+    logRetentionInDays: 60
+
+## EXECUTE ##
+
+# eksctl create cluster -f ./eks-eksctl.yaml --profile acg-sandbox
+# eksctl delete cluster -f ./eks-eksctl.yaml --profile acg-sandbox --disable-nodegroup-eviction --wait
+# eksctl upgrade cluster --config-file ./eks-eksctl.yaml --profile acg-sandbox --approve
